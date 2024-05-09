@@ -1,0 +1,64 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableList = Model.TableList;
+}
+using @($"{applicationName}.API");
+using @($"{applicationName}.CORE.DataAccess");
+using @($"{applicationName}.CORE.Repositories");
+using @($"{applicationName}.CORE.Services");
+using @($"{applicationName}.DOMAIN.Repositories");
+using @($"{applicationName}.DOMAIN.Services");
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.ConfigureServicesOData();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+@foreach (var table in tableList)
+{
+    <text>builder.Services.AddScoped<I@(table.name)Repository, @(table.name)Repository>();</text>
+    <text>
+builder.Services.AddScoped<I@(table.name)Service, @(table.name)Service>();</text>
+}
+
+builder.Services.AddDbContext<@(applicationName)DbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("@(applicationName)"));
+});
+
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true).AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null); ;
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseCors();
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

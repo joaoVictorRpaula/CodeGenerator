@@ -1,0 +1,25 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+	var idProject = Guid.NewGuid();
+}
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{@(idProject)}") = "@(applicationName).API", "@(applicationName).API\@(applicationName).API.csproj", "{@(Guid.NewGuid())}"
+EndProject
+Project("{@(idProject)}") = "@(applicationName).CORE", "@(applicationName).CORE\@(applicationName).CORE.csproj", "{@(Guid.NewGuid())}"
+EndProject
+Project("{@(idProject)}") = "@(applicationName).DOMAIN", "@(applicationName).DOMAIN\@(applicationName).DOMAIN.csproj", "{@(Guid.NewGuid())}"
+EndProject
+Project("{@(idProject)}") = "@(applicationName).INFRA", "@(applicationName).INFRA\@(applicationName).INFRA.csproj", "{@(Guid.NewGuid())}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

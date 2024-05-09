@@ -1,0 +1,27 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+}
+using @($"{applicationName}.CORE.Extensions");
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace @($"{applicationName}.CORE.DataAccess")
+{
+    public class @(applicationName)DbContext : DbContext
+    {
+        public @(applicationName)DbContext(DbContextOptions<@(applicationName)DbContext> options)
+          : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            this.ReadClassesMap(builder);
+            base.OnModelCreating(builder);
+        }
+    }
+}

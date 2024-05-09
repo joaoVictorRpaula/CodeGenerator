@@ -1,0 +1,49 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableList = Model.TableList;
+}
+using @($"{applicationName}.DOMAIN.Models");
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
+
+namespace @($"{applicationName}.API")
+{
+    public static class ODataSetup
+    {
+        private static ODataModelBuilder objBuilder;
+
+        public static IServiceCollection ConfigureServicesOData(this IServiceCollection services)
+        {
+            objBuilder = new ODataConventionModelBuilder();
+            ConfigureEntitySets(objBuilder);
+
+            services.AddControllers().AddOData(
+            options => options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(null).AddRouteComponents(
+                "odata",
+                objBuilder.GetEdmModel()));
+            return services;
+        }
+
+        private static void ConfigureEntitySets(ODataModelBuilder builder)
+        {
+        @foreach (var table in tableList)
+        {
+            var primaryKey = string.Empty;
+
+            @foreach (var column in table.Columns)
+            {
+                @if(column.is_identity)
+                {
+                    primaryKey = column.name;
+                }
+            }
+
+            @if(!string.IsNullOrEmpty(primaryKey))
+            {
+<text>          builder.EntitySet<@(table.name)>("@(table.name)").EntityType.HasKey(t => t.@(primaryKey));
+</text>
+            }
+        }
+        }
+    }
+}

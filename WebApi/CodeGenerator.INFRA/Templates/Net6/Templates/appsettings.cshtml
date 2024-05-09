@@ -1,0 +1,16 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var dbName = Model.Application.DbInformation.Database;
+}
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Error",
+      "Microsoft": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "@(applicationName)": "Server=DESKTOP-3AHAI0F\\SQLEXPRESS;Database=@(dbName);Integrated Security=SSPI;TrustServerCertificate=True"
+  },
+  "AllowedHosts": "*"
+}

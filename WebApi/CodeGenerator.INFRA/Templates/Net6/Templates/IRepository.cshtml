@@ -1,0 +1,19 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableName = Model.Table.name;
+    var columns = Model.Table.Columns;
+}
+using @($"{applicationName}.DOMAIN.Models");
+using @($"{applicationName}.INFRA.Base.Domain.Repositories");
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace @($"{applicationName}.DOMAIN.Repositories")
+{
+    public interface I@(tableName)Repository : IBaseRepository<@(tableName)>
+    {
+    }
+}

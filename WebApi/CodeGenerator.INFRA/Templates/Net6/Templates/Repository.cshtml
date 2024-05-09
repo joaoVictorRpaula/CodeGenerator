@@ -1,0 +1,25 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableName = Model.Table.name;
+    var columns = Model.Table.Columns;
+}
+using @($"{applicationName}.CORE.DataAccess");
+using @($"{applicationName}.INFRA.Base.Core.Repositories");
+using @($"{applicationName}.DOMAIN.Models");
+using @($"{applicationName}.DOMAIN.Repositories");
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace @($"{applicationName}.CORE.Repositories")
+{
+    public class @(tableName)Repository : BaseRepository<@(tableName), @(applicationName)DbContext>, I@(tableName)Repository
+    {
+        public @(tableName)Repository(@(applicationName)DbContext context) 
+            : base(context)
+        {
+        }
+    }
+}

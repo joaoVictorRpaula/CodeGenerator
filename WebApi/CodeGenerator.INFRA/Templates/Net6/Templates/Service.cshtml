@@ -1,0 +1,24 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableName = Model.Table.name;
+    var columns = Model.Table.Columns;
+}
+using @($"{applicationName}.INFRA.Base.Core.Services");
+using @($"{applicationName}.DOMAIN.Models");
+using @($"{applicationName}.DOMAIN.Repositories");
+using @($"{applicationName}.DOMAIN.Services");
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace @($"{applicationName}.CORE.Services")
+{
+    public class @(tableName)Service : BaseService<@(tableName), I@(tableName)Repository>, I@(tableName)Service
+    {
+        public @(tableName)Service(I@(tableName)Repository repository) : base(repository)
+        {
+        }
+    }
+}

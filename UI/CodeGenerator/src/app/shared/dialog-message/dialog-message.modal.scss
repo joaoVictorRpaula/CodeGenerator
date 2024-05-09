@@ -1,0 +1,49 @@
+.icon{
+    &-good{
+        color: rgb(5, 110, 5);
+        font-size: 3.5rem;
+        width: 60px;
+        height: 60px;
+    }
+    &-warning{
+        color: rgb(251, 255, 0);
+        font-size: 3.5rem;
+        width: 60px;
+        height: 60px;
+    }
+    &-error{
+        color: rgb(150, 19, 19);
+        font-size: 3.5rem;
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.confirm-button{
+    background-color: #2f384e !important;
+    color: white !important;
+    margin-left: 20px;
+}
+
+.button-div{
+    display: flex;
+    justify-content: end;
+    bottom: 20px;
+    right: 20px;    
+    position: absolute;
+}
+
+.main-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &-icon{
+        margin-bottom: 40px;
+    }
+}
+
+.container{
+    padding: 20px;
+}

@@ -1,0 +1,66 @@
+<div class="title">Fill the informations</div>
+<form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
+  <div class="form-div">
+    <mat-form-field class="form-div-input">
+      <mat-label>Application Name</mat-label>
+      <input matInput 
+        formControlName="ApplicationName"
+        placeholder="Ex. Store">
+    </mat-form-field>
+
+    <mat-form-field class="form-div-input">
+      <mat-label>API Version</mat-label>
+      <input matInput 
+        formControlName="ApiVersion"
+        placeholder="Ex. Net6">
+    </mat-form-field>
+
+    <div formGroupName="DbInformation">
+      <mat-form-field class="form-div-input">
+        <mat-label>Server</mat-label>
+        <input matInput 
+          formControlName="Server"
+          placeholder="Server">
+      </mat-form-field>
+
+      <mat-form-field class="form-div-input">
+        <mat-label>Database</mat-label>
+        <input matInput 
+          formControlName="Database"
+          placeholder="Database">
+      </mat-form-field>
+
+      <mat-form-field class="form-div-input">
+        <mat-label>Authentication</mat-label>
+        <input matInput 
+          formControlName="Auth"
+          placeholder="Auth">
+      </mat-form-field>
+
+      <mat-form-field class="form-div-input">
+        <mat-label>User</mat-label>
+        <input matInput 
+          formControlName="User"
+          placeholder="Database user">
+      </mat-form-field>
+
+      <mat-form-field class="form-div-input">
+        <mat-label>Password</mat-label>
+        <input matInput 
+          formControlName="Password"
+          placeholder="Database password">
+      </mat-form-field>
+    </div>
+    
+    <mat-form-field class="form-div-input">
+      <mat-label>Generate Path</mat-label>
+      <input hidden
+        matInput 
+        formControlName="Path"
+        placeholder="Generate path">
+    </mat-form-field>
+  </div>
+  <div class="form-div-input">
+    <button mat-flat-button class="form-div-input-button" color="primary">Generate</button>
+  </div>
+</form>

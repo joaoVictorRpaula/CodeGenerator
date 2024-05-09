@@ -1,0 +1,38 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    background-color: white;
+
+    &-title{
+        color: #3F4381;
+        font-size: 1.8rem;
+    }
+    &-button{
+        color: #5962E3;
+        padding: 3px;
+        cursor: pointer;
+
+        &:hover{
+            border-bottom: solid 2px #5962E3;
+        }
+    }
+}
+
+.content{
+    display: flex;
+    padding-left: 10%;
+    padding-right: 10%;
+    justify-content:space-around;
+    margin-top: 50px;
+
+    &-left{
+        width: 60%;
+    }
+}
+
+h1{
+    color:#3F4381;
+}

@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="main-div">
+    <div class="main-div-icon">
+      <mat-icon *ngIf="data.iconStatus == 'good'" class="icon-good" aria-hidden="false" fontIcon="check_circle"></mat-icon>
+      <mat-icon *ngIf="data.iconStatus == 'warning'" class="icon-warning" aria-hidden="false" fontIcon="warning"></mat-icon>
+      <mat-icon *ngIf="data.iconStatus == 'error'" class="icon-error" aria-hidden="false" fontIcon="error"></mat-icon>
+    </div>
+    <div>
+      {{data.message}}
+    </div>
+  </div>
+  <div class="button-div">
+    <button *ngIf="data.showCancelButton" mat-raised-button (click)="closeDialog(false)">Cancelar</button>
+    <button mat-raised-button class="confirm-button" routerLink="form" (click)="closeDialog(true)">Confirmar</button>
+  </div>
+</div>

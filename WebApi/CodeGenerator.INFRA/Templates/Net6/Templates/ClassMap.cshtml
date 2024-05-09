@@ -1,0 +1,68 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableName = Model.Table.name;
+    var columns = Model.Table.Columns;
+    var parentRelations = Model.Table.ParentRelations;
+    var relatedRelations = Model.Table.RelatedRelations;
+}
+using @($"{applicationName}.DOMAIN.Models");
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace @($"{applicationName}.CORE.Mapping")
+{
+    public class @(tableName)ClassMap : IEntityTypeConfiguration<@(tableName)>
+    {
+        public void Configure(EntityTypeBuilder<@(tableName)> builder)
+        {
+            builder.ToTable("@(tableName)", "dbo");
+
+            @foreach (var column in columns)
+            {
+                @if(column.is_identity)
+                {
+                     <text>            builder.HasKey(x => new {x.@(column.name)});</text>
+                     <text>
+</text>
+                }
+
+                @if(!column.is_identity)
+                {
+                     <text>            builder.Property(x => x.@(column.name))</text>
+                     <text>               .HasColumnName("@(column.name)")</text>
+                     @if (!column.is_nullable) 
+                     { 
+                         <text>
+               .IsRequired()</text> 
+                     }
+                     <text>;</text>
+                     <text>
+</text>
+                }
+            }
+
+            @foreach (var relation in parentRelations)
+            {
+                <text>          builder.HasOne(x => x.@(relation.RelatedTable.name))</text>
+                <text>              .WithMany(x => x.@(tableName))</text>
+                <text>              .HasForeignKey(x => x.@(relation.ParentColumn.name));</text>
+                <text>
+</text>
+            }
+
+            @foreach (var relatedRelation in relatedRelations)
+            {
+                <text>          builder.HasMany(x => x.@(relatedRelation.ParentTable.name))</text>
+                <text>              .WithOne(x => x.@(tableName))</text>
+                <text>              .HasForeignKey(x => x.@(relatedRelation.ParentColumn.name));</text>
+                <text>
+</text>
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableName = Model.Table.name;
+    var columns = Model.Table.Columns;
+}
+using @($"{applicationName}.DOMAIN.Models");
+using @($"{applicationName}.DOMAIN.Services");
+using @($"{applicationName}.API.Controllers.Base");
+using Microsoft.AspNet.OData;
+using Microsoft.AspNet.OData.Routing;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace @($"{applicationName}.API.Controllers")
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class @(tableName)Controller : BaseController<@(tableName), I@(tableName)Service>
+    {
+        public @(tableName)Controller(I@(tableName)Service service) : base(service)
+        {
+        }
+
+    }
+}

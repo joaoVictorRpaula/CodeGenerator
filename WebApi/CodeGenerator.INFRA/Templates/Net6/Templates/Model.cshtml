@@ -1,0 +1,34 @@
+﻿@{
+    var applicationName = Model.Application.ApplicationName;
+    var tableName = Model.Table.name;
+    var columns = Model.Table.Columns;
+    var parentRelations = Model.Table.ParentRelations;
+    var relatedRelations = Model.Table.RelatedRelations;
+}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace @($"{applicationName}.DOMAIN.Models")
+{
+    public class @tableName
+    {
+        @foreach (var column in columns)
+        {
+            <text>      public @column.ColumnType.name @column.name { get; set; }</text>
+            <text></text>
+        }
+        @foreach (var relation in parentRelations)
+        {
+            <text>      public @relation.RelatedTable.name @relation.RelatedTable.name { get; set; }</text>
+            <text></text>
+        }
+        @foreach (var relation in relatedRelations)
+        {
+            <text>      public IList<@relation.ParentTable.name> @relation.ParentTable.name { get; set; }</text>
+            <text></text>
+        }
+    }
+}
