@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { DialogMessageService } from './dialog-message/dialog-message.service';
 import { DialogMessageModal } from './dialog-message/dialog-message.modal';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations:[
@@ -37,7 +38,8 @@ import { DialogMessageModal } from './dialog-message/dialog-message.modal';
     MatCardModule,
     MatDialogModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   exports:[
     MatSidenavModule,
@@ -53,7 +55,8 @@ import { DialogMessageModal } from './dialog-message/dialog-message.modal';
     MatCardModule,
     MatDialogModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     DialogMessageService,

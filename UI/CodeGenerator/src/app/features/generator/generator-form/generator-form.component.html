@@ -1,3 +1,6 @@
+<div class="overlay" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
 <div class="title">Fill the informations</div>
 <form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
   <div class="form-div">
@@ -51,13 +54,12 @@
           placeholder="Database password">
       </mat-form-field>
     </div>
-    
+
     <mat-form-field class="form-div-input">
       <mat-label>Generate Path</mat-label>
-      <input hidden
-        matInput 
+      <input matInput 
         formControlName="Path"
-        placeholder="Generate path">
+        placeholder="Generate Path">
     </mat-form-field>
   </div>
   <div class="form-div-input">

@@ -13,6 +13,7 @@ import { DialogMessageService } from 'src/app/shared/dialog-message/dialog-messa
 export class GeneratorFormComponent implements OnInit {
 
   mainForm : FormGroup;
+  loading : Boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -37,14 +38,16 @@ export class GeneratorFormComponent implements OnInit {
   }
 
   onSubmit(){
+    this.loading = true;
     var applicationDto =  this.mainForm.value;
     this.applicationDtoEndpoint.generate(applicationDto).pipe(catchError((error : any) => {
+      this.loading = false;
       this.dialogMessageService.openErrorDialog();
       return throwError(() => error);
     }))
     .subscribe(x => {
+      this.loading = false;
       this.dialogMessageService.openSuccessDialog();
-      // .afterClosed().subscribe(x => this.route.navigate([]));
     });
   }
 
