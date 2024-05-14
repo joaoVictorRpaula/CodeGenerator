@@ -1,9 +1,10 @@
 {
   "name": "code-generator",
   "version": "0.0.0",
+  "main":"app.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng build && electron .",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -29,6 +30,7 @@
     "@angular/cli": "~15.2.6",
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
+    "electron": "^30.0.4",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
