@@ -37,7 +37,7 @@ namespace CodeGenerator.CORE.Services
                 throw new Exception("No tables found on database.");
             }
 
-            var apiVersionService = versionService.ResolveService(applicationDto.ApiVersion);
+            var apiVersionService = versionService.ResolveService(applicationDto.TemplateName);
 
             var rootFolder = apiVersionService.GetRootFolder(applicationDto.ApplicationName);
 

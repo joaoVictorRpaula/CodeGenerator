@@ -2,12 +2,14 @@
 using CodeGenerator.DOMAIN.Models;
 using CodeGenerator.DOMAIN.Models.Db;
 using CodeGenerator.INFRA.Interfaces;
+using CodeGenerator.INFRA.Templates.CSR.Net6;
 using Microsoft.Extensions.Configuration;
 using RazorEngine;
 using RazorEngine.Templating;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +17,10 @@ namespace CodeGenerator.INFRA.Services
 {
     public class GenerateFileService : IGenerateFileService
     {
-        private string BaseTemplatePath;
-        public GenerateFileService(IConfiguration configuration)
+        private readonly IPathService pathService;
+        public GenerateFileService(IPathService pathService)
         {
-            var currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).ToString();
-            BaseTemplatePath = Path.Combine(currentPath, "CodeGenerator.INFRA", "Templates");
+            this.pathService = pathService;
         }
 
         public async Task ExecuteGenerate(Table table, ApplicationDto applicationDto, Folder rootFolder, IList<Table> tableList)
@@ -53,31 +54,12 @@ namespace CodeGenerator.INFRA.Services
                 }
             }
         }
-        private string GetFilePath(Folder folder, FileDto file, Table table, ApplicationDto applicationDto)
-        {
-            var filePath = string.Empty;
 
-            if (file.UseTableName)
-            {
-                filePath = Path.Combine(folder.Path, $"{file.FileNamePrefix}{table.name}{file.FileNameSufix}{file.FileExtension}");
-            }
-            if (file.UseApplicationName)
-            {
-                filePath = Path.Combine(folder.Path, $"{file.FileNamePrefix}{applicationDto.ApplicationName}{file.FileNameSufix}{file.FileExtension}");
-            }
-            if (!file.UseTableName && !file.UseApplicationName)
-            {
-                string fileName = file.TemplateName.Substring(0, file.TemplateName.LastIndexOf('.'));
-                filePath = Path.Combine(folder.Path, $"{file.FileNamePrefix}{fileName}{file.FileNameSufix}{file.FileExtension}");
-            }
-
-            return filePath;
-        }
         private async Task ExecuteGenerateFile(Folder folder, Table table, ApplicationDto applicationDto, IList<Table> tableList, FileDto file, CodeGeneratorDto codeGeneratorDto)
         {
             var resultContent = string.Empty;
 
-            var templatePath = Path.Combine(BaseTemplatePath, applicationDto.ApiVersion, "Templates", file.TemplateName);
+            var templatePath = Path.Combine(this.pathService.GetBaseTemplatePath(applicationDto.TemplateName), file.TemplateName);
 
             var template = File.ReadAllText(templatePath);
 
@@ -95,7 +77,7 @@ namespace CodeGenerator.INFRA.Services
                 resultContent = Engine.Razor.RunCompile(template, file.TemplateName, null, codeGeneratorDto);
             }
 
-            var filePath = GetFilePath(folder, file, table, applicationDto);
+            var filePath = this.pathService.BuildFilePath(folder, file, table, applicationDto);
 
             await File.WriteAllTextAsync(filePath, resultContent);
 

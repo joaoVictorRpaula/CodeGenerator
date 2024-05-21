@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeGenerator.INFRA
+namespace CodeGenerator.INFRA.Templates.CSR.Net6
 {
-    public class Net6 : IFolderService
+    public class CSRNet6 : IFolderService
     {
         private Folder Folder { get; set; }
         private void DeclareFolders(string applicationName)
@@ -78,8 +78,8 @@ namespace CodeGenerator.INFRA
                                 new Folder
                                 {
                                     Name = "Models",
-                                    Files = new List<FileDto>{ 
-                                        new FileDto { TemplateName = "Model.cshtml", FileNamePrefix = "", FileNameSufix = "", FileExtension = ".cs", UseTableName = true } 
+                                    Files = new List<FileDto>{
+                                        new FileDto { TemplateName = "Model.cshtml", FileNamePrefix = "", FileNameSufix = "", FileExtension = ".cs", UseTableName = true }
                                     }
                                 },
                                 new Folder
@@ -122,7 +122,7 @@ namespace CodeGenerator.INFRA
                                         Files = new List<FileDto>{
                                             new FileDto { TemplateName = "DbContextExtensions.cshtml", FileNamePrefix = "", FileNameSufix = "", FileExtension = ".cs" , UseTableName = false, UseApplicationName = false}
                                         }
-                                    }, 
+                                    },
                                 },
                             }
                         },
