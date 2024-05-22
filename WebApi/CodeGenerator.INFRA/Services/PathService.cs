@@ -1,6 +1,7 @@
 ﻿using CodeGenerator.DOMAIN.Models;
 using CodeGenerator.DOMAIN.Models.Db;
 using CodeGenerator.INFRA.Interfaces;
+using RazorEngine.Templating;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,10 +41,10 @@ namespace CodeGenerator.INFRA.Services
             return filePath;
         }
 
-        public string GetBaseTemplatePath(string TemplateTypeName)
+        public string GetBaseTemplatePath(string templateName)
         {
             var rootFolder = Path.GetDirectoryName(Directory.GetFiles(BaseTemplatePath, "*", SearchOption.AllDirectories)
-                .FirstOrDefault(file => Path.GetFileName(file).Equals($"{TemplateTypeName}.cs", StringComparison.OrdinalIgnoreCase)));
+                .FirstOrDefault(file => Path.GetFileName(file).Equals($"{templateName}.cs", StringComparison.OrdinalIgnoreCase)));
 
             return Path.Combine(rootFolder, "Templates");
         }

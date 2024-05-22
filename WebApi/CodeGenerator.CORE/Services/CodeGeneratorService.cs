@@ -13,17 +13,17 @@ namespace CodeGenerator.CORE.Services
         private readonly DynamicDbContext dbContext;
         private readonly IDbService dbService;
         private readonly IGenerateFolderService generateFolderService;
-        private readonly IVersionService versionService;
+        private readonly ITemplateService templateService;
         public CodeGeneratorService(
             DynamicDbContext dbContext,
             IDbService dbService,
             IGenerateFolderService generateService,
-            IVersionService versionService)
+            ITemplateService templateService)
         {
             this.dbContext = dbContext;
             this.dbService = dbService;
             this.generateFolderService = generateService;
-            this.versionService = versionService;
+            this.templateService = templateService;
         }
 
         public async Task Generate(ApplicationDto applicationDto)
@@ -37,7 +37,7 @@ namespace CodeGenerator.CORE.Services
                 throw new Exception("No tables found on database.");
             }
 
-            var apiVersionService = versionService.ResolveService(applicationDto.TemplateName);
+            var apiVersionService = templateService.ResolveService(applicationDto.TemplateName);
 
             var rootFolder = apiVersionService.GetRootFolder(applicationDto.ApplicationName);
 

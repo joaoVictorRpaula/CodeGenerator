@@ -1,5 +1,6 @@
 using CodeGenerator.DOMAIN.Interfaces;
 using CodeGenerator.DOMAIN.Models;
+using CodeGenerator.INFRA.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeGenerator.Controllers
@@ -9,9 +10,11 @@ namespace CodeGenerator.Controllers
     public class CodeGeneratorController : ControllerBase
     {
         private readonly ICodeGeneratorService codeGenerator;
-        public CodeGeneratorController(ICodeGeneratorService codeGenerator)
+        private readonly ITemplateService templateService;
+        public CodeGeneratorController(ICodeGeneratorService codeGenerator, ITemplateService templateService)
         {
             this.codeGenerator = codeGenerator;
+            this.templateService = templateService;
         }
 
         [HttpPost]
@@ -27,6 +30,13 @@ namespace CodeGenerator.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("GetAllTemplates")]
+        public IActionResult GetAllTemplates()
+        {
+            return Ok(templateService.GetAllTemplates());
         }
     }
 }

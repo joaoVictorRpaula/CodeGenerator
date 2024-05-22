@@ -18,6 +18,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { DialogMessageService } from './dialog-message/dialog-message.service';
 import { DialogMessageModal } from './dialog-message/dialog-message.modal';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations:[
@@ -39,7 +40,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatDialogModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   exports:[
     MatSidenavModule,
@@ -56,7 +58,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatDialogModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   providers: [
     DialogMessageService,

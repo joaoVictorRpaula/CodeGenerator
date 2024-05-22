@@ -20,7 +20,7 @@ builder.Services.AddScoped<IGenerateFolderService, GenerateFolderService>();
 builder.Services.AddScoped<IGenerateFileService, GenerateFileService>();
 builder.Services.AddScoped<ITypeConverterService, TypeConverterService>();
 builder.Services.AddScoped<DynamicDbContext>();
-builder.Services.AddScoped<IVersionService, VersionService>();
+builder.Services.AddScoped<ITemplateService, TemplateService>();
 builder.Services.AddScoped<IPathService, PathService>();
 
 builder.Services.AddCors(options =>

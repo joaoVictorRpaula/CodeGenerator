@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, throwError } from 'rxjs';
 import { DialogMessageService } from 'src/app/shared/dialog-message/dialog-message.service';
+import { CodeGeneratorEndpoint } from 'src/app/domain/code-generator/code-generator-endpoint';
 
 @Component({
   selector: 'app-generator-form',
@@ -14,16 +15,18 @@ export class GeneratorFormComponent implements OnInit {
 
   mainForm : FormGroup;
   loading : Boolean = false;
+  templates : string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialogMessageService : DialogMessageService,
-    private applicationDtoEndpoint : ApplicationDtoEndpoint
+    private applicationDtoEndpoint : ApplicationDtoEndpoint,
+    private codeGeneratorEndpoint : CodeGeneratorEndpoint
   ) { 
     this.mainForm = this.fb.group({
       ApplicationName: ['' , Validators.required],
       Path: ['' , Validators.required],
-      ApiVersion: ['' , Validators.required],
+      TemplateName: ['' , Validators.required],
       DbInformation: this.fb.group({
         Server: ['', Validators.required],
         Database: ['', Validators.required],
@@ -35,6 +38,12 @@ export class GeneratorFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.codeGeneratorEndpoint.getAllTemplates().subscribe(x => {
+      this.templates = x;
+    console.log(this.templates);
+
+    })
+    
   }
 
   onSubmit(){

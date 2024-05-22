@@ -9,8 +9,18 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.INFRA.Services
 {
-    public class VersionService : IVersionService
+    public class TemplateService : ITemplateService
     {
+        public List<string> GetAllTemplates()
+        {
+            var templatesName = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => typeof(IFolderService).IsAssignableFrom(t))
+                .Select(x => x.Name)
+                .ToList();
+
+            return templatesName;
+        }
+
         public IFolderService ResolveService(string serviceName)
         {
             var serviceType = Assembly.GetExecutingAssembly().GetTypes()

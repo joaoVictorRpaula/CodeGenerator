@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace CodeGenerator.INFRA.Interfaces
 {
-    public interface IVersionService
+    public interface ITemplateService
     {
         IFolderService ResolveService(string serviceName);
+
+        List<string> GetAllTemplates();
     }
 }

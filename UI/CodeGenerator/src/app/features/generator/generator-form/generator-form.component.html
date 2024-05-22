@@ -11,11 +11,21 @@
         placeholder="Ex. Store">
     </mat-form-field>
 
-    <mat-form-field class="form-div-input">
-      <mat-label>API Version</mat-label>
+    <!-- <mat-form-field class="form-div-input">
+      <mat-label>Template Name</mat-label>
       <input matInput 
-        formControlName="ApiVersion"
-        placeholder="Ex. Net6">
+        formControlName="TemplateName"
+        placeholder="Ex. CSRNet6">
+    </mat-form-field> -->
+
+    <mat-form-field class="form-div-input">
+      <mat-label>Template Name</mat-label>
+      <input type="text" matInput formControlName="TemplateName" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let template of templates" [value]="template">
+          {{template}}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
 
     <div formGroupName="DbInformation">
