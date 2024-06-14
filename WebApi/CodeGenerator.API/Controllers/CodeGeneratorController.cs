@@ -11,10 +11,12 @@ namespace CodeGenerator.Controllers
     {
         private readonly ICodeGeneratorService codeGenerator;
         private readonly ITemplateService templateService;
-        public CodeGeneratorController(ICodeGeneratorService codeGenerator, ITemplateService templateService)
+        private readonly ITypeConverterService typeConverterService;
+        public CodeGeneratorController(ICodeGeneratorService codeGenerator, ITemplateService templateService, ITypeConverterService typeConverterService)
         {
             this.codeGenerator = codeGenerator;
             this.templateService = templateService;
+            this.typeConverterService = typeConverterService;
         }
 
         [HttpPost]
@@ -37,6 +39,13 @@ namespace CodeGenerator.Controllers
         public IActionResult GetAllTemplates()
         {
             return Ok(templateService.GetAllTemplates());
+        }
+
+        [HttpGet]
+        [Route("GetAllLanguages")]
+        public IActionResult GetAllLanguages()
+        {
+            return Ok(typeConverterService.GetAvailableLanguages());
         }
     }
 }

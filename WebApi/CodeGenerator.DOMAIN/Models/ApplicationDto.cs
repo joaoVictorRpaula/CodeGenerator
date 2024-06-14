@@ -12,6 +12,7 @@ namespace CodeGenerator.DOMAIN.Models
         public string ApplicationName { get; set; }
         public string Path { get; set; }
         public string TemplateName { get; set; }
+        public string VariableTypes { get; set; }
         public DbInformation DbInformation { get; set; }
     }
 }

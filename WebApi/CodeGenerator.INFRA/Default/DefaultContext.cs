@@ -31,6 +31,18 @@ namespace CodeGenerator.INFRA.Default
             modelBuilder.Entity<Relation>()
                .ToTable("foreign_key_columns");
 
+            modelBuilder.Entity<Indexes>()
+               .ToTable("indexes");
+
+            modelBuilder.Entity<IndexColumns>()
+               .ToTable("index_columns");
+
+            modelBuilder.Entity<IndexColumns>()
+                .HasKey(t => t.index_column_id);
+
+            modelBuilder.Entity<Indexes>()
+                .HasKey(t => t.index_id);
+
             modelBuilder.Entity<Table>()
                 .HasKey(t => t.object_id);
 
@@ -84,6 +96,24 @@ namespace CodeGenerator.INFRA.Default
               .WithMany(t => t.RelatedRelations)
               .HasForeignKey(fk => new { fk.referenced_object_id, fk.referenced_column_id })
               .HasPrincipalKey(c2 => new { c2.object_id, c2.column_id });
+
+            modelBuilder.Entity<Indexes>()
+                .HasMany(x => x.IndexColumns)
+                .WithOne(x => x.Indexes)
+                .HasForeignKey(fk => new { fk.index_id, fk.object_id })
+                .HasPrincipalKey(c2 => new { c2.index_id, c2.object_id });
+
+            modelBuilder.Entity<IndexColumns>()
+                .HasOne(x => x.Column)
+                .WithMany(x => x.IndexColumns)
+                .HasForeignKey(fk => new { fk.object_id, fk.column_id })
+                .HasPrincipalKey(c2 => new { c2.object_id, c2.column_id });
+
+            modelBuilder.Entity<IndexColumns>()
+                .HasOne(x => x.Indexes)
+                .WithMany(x => x.IndexColumns)
+                .HasForeignKey(fk => new { fk.object_id, fk.index_id })
+                .HasPrincipalKey(c2 => new { c2.object_id, c2.index_id });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

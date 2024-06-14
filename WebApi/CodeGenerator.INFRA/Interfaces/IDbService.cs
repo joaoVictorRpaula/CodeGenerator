@@ -5,6 +5,6 @@ namespace CodeGenerator.INFRA.Interfaces
 {
     public interface IDbService
     {
-        Task<List<Table>> GetTables(DefaultContext context);
+        Task<IList<Table>> GetTables(DefaultContext context);
     }
 }

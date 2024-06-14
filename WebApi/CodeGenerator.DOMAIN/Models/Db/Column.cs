@@ -20,6 +20,7 @@ namespace CodeGenerator.DOMAIN.Models.Db
         public int system_type_id { get; set; }
         public virtual Table Table { get; set; }
         public virtual ColumnType ColumnType { get; set; }
+        public virtual IList<IndexColumns> IndexColumns { get; set; }
         public virtual IList<Relation> ParentRelations { get; set; }
         public virtual IList<Relation> RelatedRelations { get; set; }
     }

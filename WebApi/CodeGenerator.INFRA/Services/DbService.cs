@@ -13,19 +13,17 @@ namespace CodeGenerator.INFRA.Services
 {
     public class DbService : IDbService
     {
-        private readonly ITypeConverterService typeConverterService;
-        public DbService(ITypeConverterService typeConverterService)
-        {
-            this.typeConverterService = typeConverterService;
-        }
-
-        public async Task<List<Table>> GetTables(DefaultContext context)
+        public async Task<IList<Table>> GetTables(DefaultContext context)
         {
             var tables = await context.Tables
                 .AsNoTracking()
                 .Where(x => x.type_desc == "USER_TABLE" && x.name != "sysdiagrams")
+
                 .Include(x => x.Columns)
                     .ThenInclude(x => x.ColumnType)
+                .Include(x => x.Columns)
+                    .ThenInclude(x => x.IndexColumns)
+                    .ThenInclude(x => x.Indexes)
 
                 .Include(x => x.ParentRelations)
                     .ThenInclude(x => x.RelatedTable)
@@ -43,11 +41,6 @@ namespace CodeGenerator.INFRA.Services
 
                 .AsSplitQuery()
                 .ToListAsync();
-
-            foreach (var table in tables)
-            {
-                table.Columns = this.typeConverterService.ConvertToCSharpType(table.Columns);
-            }
 
             return tables;
         }
