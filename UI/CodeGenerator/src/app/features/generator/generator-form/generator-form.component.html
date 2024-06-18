@@ -23,8 +23,8 @@
 
     <mat-form-field class="form-div-input">
       <mat-label>Template Name</mat-label>
-      <input type="text" matInput formControlName="TemplateName" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
+      <input type="text" matInput formControlName="TemplateName" [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete">
         <mat-option *ngFor="let template of templates" [value]="template">
           {{template}}
         </mat-option>
@@ -46,12 +46,12 @@
           placeholder="Database">
       </mat-form-field>
 
-      <mat-form-field class="form-div-input">
+      <!-- <mat-form-field class="form-div-input">
         <mat-label>Authentication</mat-label>
         <input matInput 
           formControlName="Auth"
           placeholder="Auth">
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field class="form-div-input">
         <mat-label>User</mat-label>

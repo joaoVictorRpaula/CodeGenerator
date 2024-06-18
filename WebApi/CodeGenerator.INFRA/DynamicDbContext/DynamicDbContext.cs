@@ -26,18 +26,13 @@ namespace CodeGenerator.INFRA.DynamicDbContext
         {
             var connectionString = $"Server={dbInformation.Server};Database={dbInformation.Database};TrustServerCertificate=True;";
 
-            if (dbInformation.Auth == Auth.Windows)
+            if (dbInformation.User == null || dbInformation.Password == null)
             {
                 connectionString += "Integrated Security=SSPI;";
             }
 
-            if (dbInformation.Auth == Auth.SqlServer)
+            if (dbInformation.User != null && dbInformation.Password != null)
             {
-                if (dbInformation.User == null || dbInformation.Password == null)
-                {
-                    throw new Exception("User and Password can not be null.");
-                }
-
                 connectionString += $"User Id={dbInformation.User};Password={dbInformation.Password};";
             }
 

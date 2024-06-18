@@ -32,7 +32,7 @@ export class GeneratorFormComponent implements OnInit {
       DbInformation: this.fb.group({
         Server: ['', Validators.required],
         Database: ['', Validators.required],
-        Auth: [1, Validators.required],
+        // Auth: [1, Validators.required],
         User: [null],
         Password: [null]
       })
