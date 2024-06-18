@@ -32,7 +32,8 @@ namespace @($"{applicationName}.API")
 
             @foreach (var column in table.Columns)
             {
-                @if(column.is_identity)
+
+                @if(column.IndexColumns.Count > 0 ? column.IndexColumns[0].Indexes.is_primary_key : false)
                 {
                     primaryKey = column.name;
                 }

@@ -1,6 +1,7 @@
 ﻿using CodeGenerator.DOMAIN.Interfaces;
 using CodeGenerator.DOMAIN.Models;
 using CodeGenerator.DOMAIN.Models.Db;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,17 +26,32 @@ namespace CodeGenerator.CORE.Services
 
         public IList<Table> ConvertType(IList<Table> tables, string languageType)
         {
-            MethodInfo method = this.GetType().GetMethod(languageType, BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo field = this.GetType().GetField(languageType, BindingFlags.Instance | BindingFlags.NonPublic);
 
-            if (method == null)
+            var typeMapping = new Dictionary<string, string>();
+
+            if (field == null)
             {
-                throw new ArgumentException($"Unsupported Variables type, available : {string.Join(", ",GetAvailableLanguages())}");
+                throw new Exception($"Language {languageType} is not supported.");
             }
 
-            return (IList<Table>)method.Invoke(this, new object[] { tables });
+            if (field.FieldType == typeof(Dictionary<string, string>))
+            {
+                typeMapping = (Dictionary<string, string>)field.GetValue(this);
+            }
+
+            foreach (var table in tables)
+            {
+                foreach (var column in table.Columns)
+                {
+                    column.ColumnType.name = typeMapping.TryGetValue(column.ColumnType.name.ToLower(), out var csharpType) ? csharpType : "object";
+                }
+            }
+
+            return tables;
         }
 
-        private readonly Dictionary<string, string> CSharpTypeMapping = new Dictionary<string, string>
+        private readonly Dictionary<string, string> CSharp = new Dictionary<string, string>
         {
             { "image", "byte[]" },
             { "text", "string" },
@@ -67,20 +83,7 @@ namespace CodeGenerator.CORE.Services
             { "timestamp", "byte[]" },
         };
 
-        private IList<Table> CSharp(IList<Table> tables)
-        {
-            foreach (var table in tables)
-            {
-                foreach (var column in table.Columns)
-                {
-                    column.ColumnType.name = CSharpTypeMapping.TryGetValue(column.ColumnType.name.ToLower(), out var csharpType) ? csharpType : "object";
-                }
-            }
-
-            return tables;
-        }
-
-        private readonly Dictionary<string, string> TypeScriptTypeMapping = new Dictionary<string, string>
+        private readonly Dictionary<string, string> TypeScript = new Dictionary<string, string>
         {
             { "image", "Uint8Array" },
             { "text", "string" },
@@ -112,20 +115,7 @@ namespace CodeGenerator.CORE.Services
             { "timestamp", "Uint8Array" },
         };
 
-        private IList<Table> TypeScript(IList<Table> tables)
-        {
-            foreach (var table in tables)
-            {
-                foreach (var column in table.Columns)
-                {
-                    column.ColumnType.name = TypeScriptTypeMapping.TryGetValue(column.ColumnType.name.ToLower(), out var typeScriptType) ? typeScriptType : "object";
-                }
-            }
-
-            return tables;
-        }
-
-        private readonly Dictionary<string, string> PythonTypeMapping = new Dictionary<string, string>
+        private readonly Dictionary<string, string> Python = new Dictionary<string, string>
         {
             { "image", "bytes" },
             { "text", "str" },
@@ -157,20 +147,7 @@ namespace CodeGenerator.CORE.Services
             { "timestamp", "bytes" },
         };
 
-        private IList<Table> Python(IList<Table> tables)
-        {
-            foreach (var table in tables)
-            {
-                foreach (var column in table.Columns)
-                {
-                    column.ColumnType.name = PythonTypeMapping.TryGetValue(column.ColumnType.name.ToLower(), out var pythonType) ? pythonType : "object";
-                }
-            }
-
-            return tables;
-        }
-
-        private readonly Dictionary<string, string> JavaTypeMapping = new Dictionary<string, string>
+        private readonly Dictionary<string, string> Java = new Dictionary<string, string>
         {
             { "image", "byte[]" },
             { "text", "String" },
@@ -201,18 +178,5 @@ namespace CodeGenerator.CORE.Services
             { "binary", "byte[]" },
             { "timestamp", "byte[]" },
         };
-
-        private IList<Table> Java(IList<Table> tables)
-        {
-            foreach (var table in tables)
-            {
-                foreach (var column in table.Columns)
-                {
-                    column.ColumnType.name = JavaTypeMapping.TryGetValue(column.ColumnType.name.ToLower(), out var javaType) ? javaType : "object";
-                }
-            }
-
-            return tables;
-        }
     }
 }

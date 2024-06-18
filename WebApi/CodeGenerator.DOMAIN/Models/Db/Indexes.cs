@@ -10,8 +10,8 @@ namespace CodeGenerator.DOMAIN.Models.Db
 {
     public class Indexes
     {
-        public int object_id { get; set; }
         public int index_id { get; set; }
+        public int object_id { get; set; }
         public bool is_primary_key { get; set; }
         public virtual IList<IndexColumns> IndexColumns { get; set; }
     }

@@ -18,5 +18,10 @@ export class CodeGeneratorEndpoint {
         var generateEndpoint = "/GetAllTemplates";
         return this.httpClient.get<string[]>(environment.apiUrl + this.endpoint + generateEndpoint)
     }
+
+    getAllLanguages() : Observable<string[]>{
+        var generateEndpoint = "/GetAllLanguages";
+        return this.httpClient.get<string[]>(environment.apiUrl + this.endpoint + generateEndpoint)
+    }
     
 }

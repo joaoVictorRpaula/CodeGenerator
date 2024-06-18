@@ -16,6 +16,7 @@ export class GeneratorFormComponent implements OnInit {
   mainForm : FormGroup;
   loading : Boolean = false;
   templates : string[] = [];
+  languages : string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -26,6 +27,7 @@ export class GeneratorFormComponent implements OnInit {
     this.mainForm = this.fb.group({
       ApplicationName: ['' , Validators.required],
       Path: ['' , Validators.required],
+      VariableTypes: ['' , Validators.required],
       TemplateName: ['' , Validators.required],
       DbInformation: this.fb.group({
         Server: ['', Validators.required],
@@ -40,10 +42,11 @@ export class GeneratorFormComponent implements OnInit {
   ngOnInit() {
     this.codeGeneratorEndpoint.getAllTemplates().subscribe(x => {
       this.templates = x;
-    console.log(this.templates);
-
     })
-    
+
+    this.codeGeneratorEndpoint.getAllLanguages().subscribe(x => {
+      this.languages = x;
+    })
   }
 
   onSubmit(){

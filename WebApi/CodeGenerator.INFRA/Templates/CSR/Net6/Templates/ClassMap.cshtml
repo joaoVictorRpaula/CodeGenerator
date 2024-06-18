@@ -24,20 +24,21 @@ namespace @($"{applicationName}.CORE.Mapping")
 
             @foreach (var column in columns)
             {
-                @if(column.is_identity)
+                @if(column.IndexColumns.Count > 0 ? column.IndexColumns[0].Indexes.is_primary_key : false)
                 {
                      <text>            builder.HasKey(x => new {x.@(column.name)});</text>
                      <text>
 </text>
                 }
 
-                @if(!column.is_identity)
+                @if(!(column.IndexColumns.Count > 0 ? column.IndexColumns[0].Indexes.is_primary_key : false))
                 {
                      <text>            builder.Property(x => x.@(column.name))</text>
                      <text>               .HasColumnName("@(column.name)")</text>
                      @if (!column.is_nullable) 
                      { 
                          <text>
+
                .IsRequired()</text> 
                      }
                      <text>;</text>
