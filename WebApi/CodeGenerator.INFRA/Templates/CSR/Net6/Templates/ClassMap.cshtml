@@ -59,6 +59,7 @@ namespace @($"{applicationName}.CORE.Mapping")
                 <text>              .HasForeignKey(x => x.@($"{relation.ParentColumn.name}"));</text>
                 <text>
 </text>
+                relatedRelationList.Add(relation.RelatedTable.name);
                 }
                 @if (!relatedRelationList.Contains(relation.RelatedTable.name))
                 {
@@ -82,6 +83,7 @@ namespace @($"{applicationName}.CORE.Mapping")
                 <text>              .HasForeignKey(x => x.@($"{relatedRelation.ParentColumn.name}"));</text>
                 <text>
 </text>
+                parentRelationList.Add(relatedRelation.ParentTable.name);
                 }
             @if (!parentRelationList.Contains(relatedRelation.ParentTable.name))
                 {

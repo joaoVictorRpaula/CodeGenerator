@@ -29,6 +29,7 @@ namespace @($"{applicationName}.DOMAIN.Models")
                 var increment = relatedRelationList.FindAll(x => x == relation.RelatedTable.name).Count();
                 <text>      public @relation.RelatedTable.name @($"{relation.RelatedTable.name}{increment}") { get; set; }</text>
                 <text></text>
+                relatedRelationList.Add(relation.RelatedTable.name);
             }
             @if (!relatedRelationList.Contains(relation.RelatedTable.name))
             {
@@ -44,6 +45,7 @@ namespace @($"{applicationName}.DOMAIN.Models")
                 var increment = parentRelationList.FindAll(x => x == relation.ParentTable.name).Count();
         <text>      public IList<@relation.ParentTable.name> @($"{relation.ParentTable.name}{increment}") { get; set; }</text>
                 <text></text>
+                parentRelationList.Add(relation.ParentTable.name);
             }
             @if (!parentRelationList.Contains(relation.ParentTable.name))
             {
