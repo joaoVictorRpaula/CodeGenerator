@@ -6,8 +6,6 @@
     var relatedRelations = Model.Table.RelatedRelations;
     var parentRelationList = new List<string>();
     var relatedRelationList = new List<string>();
-    var incrementRelated = 1;
-    var incrementParent = 1;
 }
 using System;
 using System.Collections.Generic;
@@ -28,9 +26,9 @@ namespace @($"{applicationName}.DOMAIN.Models")
         {
             @if (relatedRelationList.Contains(relation.RelatedTable.name))
             {
-                <text>      public @relation.RelatedTable.name @($"{relation.RelatedTable.name}{incrementRelated}") { get; set; }</text>
+                var increment = relatedRelationList.FindAll(x => x == relation.RelatedTable.name).Count();
+                <text>      public @relation.RelatedTable.name @($"{relation.RelatedTable.name}{increment}") { get; set; }</text>
                 <text></text>
-                incrementRelated += 1;
             }
             @if (!relatedRelationList.Contains(relation.RelatedTable.name))
             {
@@ -43,9 +41,9 @@ namespace @($"{applicationName}.DOMAIN.Models")
         {
             @if (parentRelationList.Contains(relation.ParentTable.name))
             {
-                <text>      public IList<@relation.ParentTable.name> @($"{relation.ParentTable.name}{incrementParent}") { get; set; }</text>
+                var increment = parentRelationList.FindAll(x => x == relation.ParentTable.name).Count();
+        <text>      public IList<@relation.ParentTable.name> @($"{relation.ParentTable.name}{increment}") { get; set; }</text>
                 <text></text>
-                incrementParent += 1;
             }
             @if (!parentRelationList.Contains(relation.ParentTable.name))
             {

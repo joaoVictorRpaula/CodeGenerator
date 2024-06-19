@@ -6,8 +6,6 @@
     var relatedRelations = Model.Table.RelatedRelations;
     var parentRelationList = new List<string>();
     var relatedRelationList = new List<string>();
-    var incrementRelated = 1;
-    var incrementParent = 1;
 }
 using @($"{applicationName}.DOMAIN.Models");
 using Microsoft.EntityFrameworkCore;
@@ -55,12 +53,12 @@ namespace @($"{applicationName}.CORE.Mapping")
             {
                 @if (relatedRelationList.Contains(relation.RelatedTable.name))
                 {
-                <text>          builder.HasOne(x => x.@($"{relation.RelatedTable.name}{incrementRelated}"))</text>
-                <text>              .WithMany(x => x.@(tableName)@(incrementRelated))</text>
+                var increment = relatedRelationList.FindAll(x => x == relation.RelatedTable.name).Count();
+                <text>          builder.HasOne(x => x.@($"{relation.RelatedTable.name}{increment}"))</text>
+                <text>              .WithMany(x => x.@(tableName)@(increment))</text>
                 <text>              .HasForeignKey(x => x.@($"{relation.ParentColumn.name}"));</text>
                 <text>
 </text>
-                incrementRelated += 1;
                 }
                 @if (!relatedRelationList.Contains(relation.RelatedTable.name))
                 {
@@ -78,12 +76,12 @@ namespace @($"{applicationName}.CORE.Mapping")
             {
             @if (parentRelationList.Contains(relatedRelation.ParentTable.name))
                 {
-                <text>          builder.HasMany(x => x.@($"{relatedRelation.ParentTable.name}{incrementParent}"))</text>
-                <text>              .WithOne(x => x.@(tableName)@(incrementParent))</text>
+                var increment = parentRelationList.FindAll(x => x == relatedRelation.ParentTable.name).Count();
+                <text>          builder.HasMany(x => x.@($"{relatedRelation.ParentTable.name}{increment}"))</text>
+                <text>              .WithOne(x => x.@(tableName)@(increment))</text>
                 <text>              .HasForeignKey(x => x.@($"{relatedRelation.ParentColumn.name}"));</text>
                 <text>
 </text>
-                incrementParent += 1;
                 }
             @if (!parentRelationList.Contains(relatedRelation.ParentTable.name))
                 {
