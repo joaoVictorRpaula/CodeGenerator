@@ -19,8 +19,16 @@ namespace @($"{applicationName}.DOMAIN.Models")
     {
         @foreach (var column in columns)
         {
-            <text>      public @column.ColumnType.name @column.name { get; set; }</text>
-            <text></text>
+            @if(column.is_nullable)
+            {
+                <text>      public @(column.ColumnType.name)? @column.name { get; set; }</text>
+                <text></text>
+            }
+            @if(!column.is_nullable)
+            {
+                <text>      public @column.ColumnType.name @column.name { get; set; }</text>
+                <text></text>
+            }
         }
         @foreach (var relation in parentRelations)
         {
