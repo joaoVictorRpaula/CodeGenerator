@@ -13,13 +13,15 @@
     }
   },
   "ConnectionStrings": {
-    @if(user == null || pass == null)
+    @if (user == null || pass == null)
     {
-        $"\"{applicationName}\"" : $"\"Server={serverName};Database={dbName};Integrated Security=SSPI;TrustServerCertificate=True\""
+<text>
+    "@(applicationName)" : "Server=@(serverName);Database=@(dbName);Integrated Security=SSPI;TrustServerCertificate=True"</text>
     }
-    @if(user != null && pass != null)
+    @if (user != null && pass != null)
     {
-        $"\"{applicationName}\"" : $"\"Server={serverName};Database={dbName};User Id={user};Password={pass};TrustServerCertificate=True\""
+<text>
+    "@(applicationName)" : "Server=@(serverName);Database=@(dbName);User Id=@(user);Password=@(pass);TrustServerCertificate=True"</text>
     }
   },
   "AllowedHosts": "*"
