@@ -2,6 +2,8 @@
     var applicationName = Model.Application.ApplicationName;
     var dbName = Model.Application.DbInformation.Database;
     var serverName = Model.Application.DbInformation.Server;
+    var user = Model.Application.DbInformation.User;
+    var pass = Model.Application.DbInformation.Password;
 }
 {
   "Logging": {
@@ -11,7 +13,14 @@
     }
   },
   "ConnectionStrings": {
-    "@(applicationName)": "Server=@(serverName);Database=@(dbName);Integrated Security=SSPI;TrustServerCertificate=True"
+    @if(user == null || pass == null)
+    {
+        $"\"{applicationName}\"" : $"\"Server={serverName};Database={dbName};Integrated Security=SSPI;TrustServerCertificate=True\""
+    }
+    @if(user != null && pass != null)
+    {
+        $"\"{applicationName}\"" : $"\"Server={serverName};Database={dbName};User Id={user};Password={pass};TrustServerCertificate=True\""
+    }
   },
   "AllowedHosts": "*"
 }
