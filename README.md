@@ -29,6 +29,7 @@
     ```bash
     .\CodeGenerator.run.bat
     ```
+3. Open http://127.0.0.1:8080/ on browser
 
 ### Manual Execution
 
