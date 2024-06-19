@@ -6,6 +6,7 @@
     var relatedRelations = Model.Table.RelatedRelations;
     var parentRelationList = new List<string>();
     var relatedRelationList = new List<string>();
+    var existPrimaryKey = false;
 }
 using @($"{applicationName}.DOMAIN.Models");
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,7 @@ namespace @($"{applicationName}.CORE.Mapping")
                      <text>            builder.HasKey(x => new {x.@(column.name)});</text>
                      <text>
 </text>
+                existPrimaryKey = true;
                 }
 
                 @if(!(column.IndexColumns.Count > 0 ? column.IndexColumns[0].Indexes.is_primary_key : false))
@@ -40,13 +42,16 @@ namespace @($"{applicationName}.CORE.Mapping")
                      @if (!column.is_nullable) 
                      { 
                          <text>
-
                .IsRequired()</text> 
                      }
                      <text>;</text>
                      <text>
 </text>
                 }
+            }
+            @if (!existPrimaryKey)
+            {
+                <text>            builder.HasNoKey();</text>
             }
 
             @foreach (var relation in parentRelations)
