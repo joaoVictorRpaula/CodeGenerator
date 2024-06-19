@@ -4,6 +4,10 @@
     var columns = Model.Table.Columns;
     var parentRelations = Model.Table.ParentRelations;
     var relatedRelations = Model.Table.RelatedRelations;
+    var parentRelationList = new List<string>();
+    var relatedRelationList = new List<string>();
+    var incrementRelated = 1;
+    var incrementParent = 1;
 }
 using System;
 using System.Collections.Generic;
@@ -22,13 +26,33 @@ namespace @($"{applicationName}.DOMAIN.Models")
         }
         @foreach (var relation in parentRelations)
         {
-            <text>      public @relation.RelatedTable.name @relation.RelatedTable.name { get; set; }</text>
-            <text></text>
+            @if (relatedRelationList.Contains(relation.RelatedTable.name))
+            {
+                <text>      public @relation.RelatedTable.name @($"{relation.RelatedTable.name}{incrementRelated}") { get; set; }</text>
+                <text></text>
+                incrementRelated += 1;
+            }
+            @if (!relatedRelationList.Contains(relation.RelatedTable.name))
+            {
+                <text>      public @relation.RelatedTable.name @relation.RelatedTable.name { get; set; }</text>
+                <text></text>
+                relatedRelationList.Add(relation.RelatedTable.name);
+            }
         }
         @foreach (var relation in relatedRelations)
         {
-            <text>      public IList<@relation.ParentTable.name> @relation.ParentTable.name { get; set; }</text>
-            <text></text>
+            @if (parentRelationList.Contains(relation.ParentTable.name))
+            {
+                <text>      public IList<@relation.ParentTable.name> @($"{relation.ParentTable.name}{incrementParent}") { get; set; }</text>
+                <text></text>
+                incrementParent += 1;
+            }
+            @if (!parentRelationList.Contains(relation.ParentTable.name))
+            {
+                <text>      public IList<@relation.ParentTable.name> @relation.ParentTable.name { get; set; }</text>
+                <text></text>
+                parentRelationList.Add(relation.ParentTable.name);
+            }
         }
     }
 }

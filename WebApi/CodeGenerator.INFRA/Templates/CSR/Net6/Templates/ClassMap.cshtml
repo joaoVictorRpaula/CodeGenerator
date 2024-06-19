@@ -4,6 +4,10 @@
     var columns = Model.Table.Columns;
     var parentRelations = Model.Table.ParentRelations;
     var relatedRelations = Model.Table.RelatedRelations;
+    var parentRelationList = new List<string>();
+    var relatedRelationList = new List<string>();
+    var incrementRelated = 1;
+    var incrementParent = 1;
 }
 using @($"{applicationName}.DOMAIN.Models");
 using Microsoft.EntityFrameworkCore;
@@ -49,20 +53,47 @@ namespace @($"{applicationName}.CORE.Mapping")
 
             @foreach (var relation in parentRelations)
             {
+                @if (relatedRelationList.Contains(relation.RelatedTable.name))
+                {
+                <text>          builder.HasOne(x => x.@($"{relation.RelatedTable.name}{incrementRelated}"))</text>
+                <text>              .WithMany(x => x.@(tableName)@(incrementRelated))</text>
+                <text>              .HasForeignKey(x => x.@($"{relation.ParentColumn.name}"));</text>
+                <text>
+</text>
+                incrementRelated += 1;
+                }
+                @if (!relatedRelationList.Contains(relation.RelatedTable.name))
+                {
                 <text>          builder.HasOne(x => x.@(relation.RelatedTable.name))</text>
                 <text>              .WithMany(x => x.@(tableName))</text>
                 <text>              .HasForeignKey(x => x.@(relation.ParentColumn.name));</text>
                 <text>
 </text>
+                relatedRelationList.Add(relation.RelatedTable.name);
+                }
+                
             }
 
             @foreach (var relatedRelation in relatedRelations)
             {
+            @if (parentRelationList.Contains(relatedRelation.ParentTable.name))
+                {
+                <text>          builder.HasMany(x => x.@($"{relatedRelation.ParentTable.name}{incrementParent}"))</text>
+                <text>              .WithOne(x => x.@(tableName)@(incrementParent))</text>
+                <text>              .HasForeignKey(x => x.@($"{relatedRelation.ParentColumn.name}"));</text>
+                <text>
+</text>
+                incrementParent += 1;
+                }
+            @if (!parentRelationList.Contains(relatedRelation.ParentTable.name))
+                {
                 <text>          builder.HasMany(x => x.@(relatedRelation.ParentTable.name))</text>
                 <text>              .WithOne(x => x.@(tableName))</text>
                 <text>              .HasForeignKey(x => x.@(relatedRelation.ParentColumn.name));</text>
                 <text>
-</text>
+                </text>
+                parentRelationList.Add(relatedRelation.ParentTable.name);
+                }
             }
         }
     }
