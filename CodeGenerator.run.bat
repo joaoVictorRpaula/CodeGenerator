@@ -9,6 +9,13 @@ cd UI/CodeGenerator
 if not exist node_modules (
     echo node_modules not found. Installing...
     npm install
+	if not exist dist (
+		echo dist not found. building...
+		npm run build
+		npm run serve
+	) else (
+		echo dist found. Skipping build.
+	)
 ) else (
     echo node_modules found. Skipping installation.
 )
@@ -16,6 +23,7 @@ if not exist node_modules (
 if not exist dist (
     echo dist not found. building...
     npm run build
+	npm run serve
 ) else (
     echo dist found. Skipping build.
 )
